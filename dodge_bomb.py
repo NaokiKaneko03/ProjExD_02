@@ -11,11 +11,13 @@ delta = {
     }
 
 
+
+
 def check_bound(scr_rct:pg.Rect, obj_rct: pg.Rect) -> tuple[bool, bool]:
     """
     オブジェクトが画面内or画面買いを判定し、真理値タプルを返す関数
     引数１：画面SurfaceのRect
-    引数２：こうかとん　または　爆弾SurfaceのRect
+    引数２：こうかとん、または、爆弾SurfaceのRect
     戻り値：横方向、縦方向のはみ出し判定結果 (画面内：True/画面外：False)
     """
     yoko, tate = True, True
@@ -31,6 +33,7 @@ def main():
     screen = pg.display.set_mode((1600, 900))
     clock = pg.time.Clock()
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
+    bb_imgs= [] #2.時間とともに爆弾が大きくなる
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     tmr = 0
@@ -79,7 +82,14 @@ def main():
         screen.blit(bb_img, bb_rct)
         if kk_rct.colliderect(bb_rct):
             return
+        
 
+        for r in range(1, 11): #2.時間とともに爆弾が大きくなる
+            bb_img = pg.Surface((20*r, 20*r))
+            pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+            bb_imgs.append(bb_img)
+            bb_img.set_colorkey((0, 0, 0))
+        bb_img = bb_imgs[min(tmr//1000, 9)]
         pg.display.update()
         clock.tick(1000)
 
