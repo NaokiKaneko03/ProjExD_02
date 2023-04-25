@@ -3,6 +3,14 @@ import sys
  
 import pygame as pg
 
+delta = {
+    pg.K_UP: (0, -1), 
+    pg.K_DOWN: (0, +1),
+    pg.K_LEFT: (-1, 0),
+    pg.K_RIGHT: (+1, 0),
+    }
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1600, 900))
@@ -16,9 +24,12 @@ def main():
     x, y = random.randint(0, 1600), random.randint(0, 900)
     bb_img.set_colorkey((0, 0, 0))
     #screen.blit(bb_img, [x, y]) 練習２
-    vx, vy = +1, +1
+    vx, vy = +1, +1 #練習３
     bb_rct = bb_img.get_rect()
     bb_rct.center = (x, y)
+    kk_rct = kk_img.get_rect()
+    kk_rct.center = 900, 400
+
     tmr = 0
     
 
@@ -30,13 +41,20 @@ def main():
                 return 0
 
         tmr += 1
+
+        key_lst = pg.key.get_pressed()
+        for k, move in delta.items():
+            if key_lst[k]:
+                kk_rct.move_ip(move)
+
+
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, [900, 400])
+        screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx, vy)
         screen.blit(bb_img, bb_rct)
 
         pg.display.update()
-        clock.tick(1000)
+        clock.tick(250)
 
 
 if __name__ == "__main__":
