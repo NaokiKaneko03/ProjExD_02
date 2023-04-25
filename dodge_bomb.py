@@ -33,7 +33,7 @@ def main():
     screen = pg.display.set_mode((1600, 900))
     clock = pg.time.Clock()
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
-    bb_imgs= [] #2.時間とともに爆弾が大きくなる
+    bb_imgs= [] #2.時間とともに爆弾が大きくなる　追加機能２
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     tmr = 0
@@ -84,12 +84,14 @@ def main():
             return
         
 
-        for r in range(1, 11): #2.時間とともに爆弾が大きくなる
+        for r in range(1, 11): #2.時間とともに爆弾が大きくなる 追加機能２
             bb_img = pg.Surface((20*r, 20*r))
             pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
             bb_imgs.append(bb_img)
             bb_img.set_colorkey((0, 0, 0))
         bb_img = bb_imgs[min(tmr//1000, 9)]
+
+        
         pg.display.update()
         clock.tick(1000)
 
